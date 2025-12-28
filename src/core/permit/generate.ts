@@ -61,7 +61,7 @@ export const getSignatureTypesAndMessage = <
 };
 
 export const getSignatureDomain = (chainId: string) => ({
-  name: "Fhenix Permission 1.0.0",
+  name: "LuxFHE Permission 1.0.0",
   version: "1.0.0",
   chainId: parseInt(chainId),
   verifyingContract: ZeroAddress,

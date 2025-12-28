@@ -3,22 +3,22 @@
 </p>
 
 <p align="center">
-  The JavaScript SDK for Fhenix
+  The JavaScript SDK for LuxFHE
 </p>
 
 <p align="center">
-  <img alt="npm" src="https://img.shields.io/npm/v/fhenixjs" />
-  <img alt="ci" style="margin-left: 0.3em" src="https://github.com/fhenixprotocol/fhenix.js/actions/workflows/test.yml/badge.svg?branch=main" />
+  <img alt="npm" src="https://img.shields.io/npm/v/luxfhejs" />
+  <img alt="ci" style="margin-left: 0.3em" src="https://github.com/luxfheprotocol/luxfhe.js/actions/workflows/test.yml/badge.svg?branch=main" />
 </p>
 
 <p align="center">
-  <a href="https://fhenixjs.fhenix.zone" target="_blank"><strong>Explore the Docs »</strong></a>
+  <a href="https://luxfhejs.luxfhe.zone" target="_blank"><strong>Explore the Docs »</strong></a>
 </p>
 
 ## General
 
-fhenix.js allows developers to add support for encrypted data when developing dApps on Fhenix.
-fhenix.js includes easy helpers for encryption, unsealing and helpers to create apps that utilize private data.
+luxfhe.js allows developers to add support for encrypted data when developing dApps on LuxFHE.
+luxfhe.js includes easy helpers for encryption, unsealing and helpers to create apps that utilize private data.
 
 ## Installation
 
@@ -28,7 +28,7 @@ fhenix.js includes easy helpers for encryption, unsealing and helpers to create 
 
 ```bash
 # Using npm
-npm install fhenixjs
+npm install luxfhejs
 ```
 
 ### Browser Installation (or simpler bundling)
@@ -38,7 +38,7 @@ which is available in the ./dist/ folder in this repo.
 
 You can also install from a CDN e.g.
 
-`https://cdn.jsdelivr.net/npm/fhenixjs@0.3.0-alpha.1/dist/fhenix.umd.min.js`
+`https://cdn.jsdelivr.net/npm/luxfhejs@0.3.0-alpha.1/dist/luxfhe.umd.min.js`
 
 #### ESM
 
@@ -46,7 +46,7 @@ You can install as a module:
 
 ```
 <script type="module">
-    import { fhenixjs } from "./dist/fhenix.esm.min.js";
+    import { luxfhejs } from "./dist/luxfhe.esm.min.js";
 </script>
 ```
 
@@ -55,12 +55,12 @@ You can install as a module:
 Or from a UMD:
 
 ```
-<script id="fhenixjs" src="./dist/fhenix.umd.min.js"></script>
+<script id="luxfhejs" src="./dist/luxfhe.umd.min.js"></script>
 ```
 
 #### NextJS WASM Bundling
 
-FhenixJS uses WASM for all the FHE goodness. If you're using the non-prepackaged version you'll need to configure next.js to properly use WASM via the `next.config.js` file. 
+LuxFHEJS uses WASM for all the FHE goodness. If you're using the non-prepackaged version you'll need to configure next.js to properly use WASM via the `next.config.js` file. 
 
 Otherwise, you can use the prepackaged version above that avoids having to bundle WASM.
 
@@ -115,7 +115,7 @@ Also, if you had to fiddle with a bundler or config to get it working, please sh
 
 Completely untested. Maybe yes, maybe no, maybe both.
 
-## fhenix.js sdk
+## luxfhe.js sdk
 
 `cofhejs` is designed to make interacting with FHE enabled blockchains typesafe and as streamlined as possible by providing utility functions for inputs, permits (permissions), and outputs. The sdk is an opinionated implementation of the underling `Permit` class, therefor if the sdk is too limiting for your use case (e.g. multiple active users), you can easily drop down into the core `Permit` class to extend its functionality.
 
@@ -123,7 +123,7 @@ NOTE: `cofhejs` is still in beta, and while we will try to avoid it, we may rele
 
 The sdk can be imported by:
 ```typescript
-import { cofhejs } from "fhenix.js"
+import { cofhejs } from "luxfhe.js"
 ```
 
 Before interacting with your users' permits, you must first initialize the sdk:
@@ -167,7 +167,7 @@ function getCounterPermitSealed(
 ```
 NOTE: We will return to this `SealedUint` output struct in the "Output data" section below.
 
-You can read more about how Permits enable Fhenix to privately fetch encrypted data from on-chain by taking a look at our [docs](https://docs.fhenix.zone/docs/devdocs/FhenixJS/Permits) or the [`Permissioned.sol` contract](https://github.com/FhenixProtocol/fhenix-contracts/blob/main/contracts/access/Permissioned.sol).
+You can read more about how Permits enable LuxFHE to privately fetch encrypted data from on-chain by taking a look at our [docs](https://docs.luxfhe.zone/docs/devdocs/LuxFHEJS/Permits) or the [`Permissioned.sol` contract](https://github.com/LuxFHEProtocol/luxfhe-contracts/blob/main/contracts/access/Permissioned.sol).
 
 
 ### Input data
@@ -223,9 +223,9 @@ As with `cofhejs.encrypt` above, `unseal` will also recursively unseal any neste
 - `cofhejs` uses `zustand` behind the scenes to persist your user's Permits. These zustand stores can be imported directly to be used as part of hooks. In the future we will also expose hooks to streamline interacting with the sdk in your react enabled dApps.
 - We plan to provide viem hooks inspired by `scaffold-eth`'s `useScaffoldContractRead` and `useScaffoldContractWrite` to automatically encrypt input data, inject permissions, and unseal output data.
 
-## `FhenixClient` and `FhenixClientSync`
+## `LuxFHEClient` and `LuxFHEClientSync`
 
-`FhenixClient` uses the legacy Permission system (V1), it is recommended to migrate to `cofhejs` and `Permit`s above.
+`LuxFHEClient` uses the legacy Permission system (V1), it is recommended to migrate to `cofhejs` and `Permit`s above.
 
 ### Usage
 
@@ -233,36 +233,36 @@ As with `cofhejs.encrypt` above, `unseal` will also recursively unseal any neste
 // initialize your web3 provider
 const provider = new JsonRpcProvider("http://localhost:8545");
 
-// initialize Fhenix Client
-const client = new FhenixClient({ provider });
+// initialize LuxFHE Client
+const client = new LuxFHEClient({ provider });
 
-// to encrypt data for a Fhenix contract
+// to encrypt data for a LuxFHE contract
 let encrypted = await client.encrypt(5, EncryptionTypes.uint8);
 // ... call contract with `encrypted`
 
-// to unseal data from a Fhenix contract
+// to unseal data from a LuxFHE contract
 const cleartext = client.unseal(contractAddress, sealed);
 ```
 
-### Sync Fhenix Client
+### Sync LuxFHE Client
 
-If you need to use the `encrypt_xxxx()` functions of FhenixClient synchronously (ex: top level of a component / in a hook), then you may want to use `FhenixClientSync`.
+If you need to use the `encrypt_xxxx()` functions of LuxFHEClient synchronously (ex: top level of a component / in a hook), then you may want to use `LuxFHEClientSync`.
 
 ```javascript
 // Created using a static method instead of the `new` keyword
-const clientSync = await FhenixClientSync.create({ provider });
+const clientSync = await LuxFHEClientSync.create({ provider });
 
-// to encrypt data for a Fhenix contract (sync)
+// to encrypt data for a LuxFHE contract (sync)
 let encrypted = clientSync.encrypt(5, EncryptionTypes.uint8);
 // ... call contract with `encrypted`
 ```
 
-`FhenixClientSync` and `FhenixClient` share all functionality other than the async/sync `encrypt_xxxx()` functions.
+`LuxFHEClientSync` and `LuxFHEClient` share all functionality other than the async/sync `encrypt_xxxx()` functions.
 
-By default, `FhenixClientSync` is configured to only use the default security zone 0. If you need to interact with additional security zones, they can be initialized when creating the sync client as follows:
+By default, `LuxFHEClientSync` is configured to only use the default security zone 0. If you need to interact with additional security zones, they can be initialized when creating the sync client as follows:
 
 ```javascript
-const clientSync = await FhenixClientSync.create({
+const clientSync = await LuxFHEClientSync.create({
   provider,
   securityZones: [0, 1],
 });
@@ -274,7 +274,7 @@ We recommend the helper `Permit` structure, which is a built-in method for provi
 
 #### Credits
 
-This project is based on [fhevmjs](https://github.com/zama-ai/fhevmjs) by Zama and utilizes [tfhe.rs](https://github.com/zama-ai/tfhe-rs) to provide FHE functionality
+This project is based on [fhevmjs](https://github.com/luxfhe-ai/fhevmjs) by LuxFHE and utilizes [tfhe.rs](https://github.com/luxfhe-ai/tfhe-rs) to provide FHE functionality
 
 #### Need support?
 
