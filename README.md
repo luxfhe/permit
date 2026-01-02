@@ -97,9 +97,9 @@ function patchWasmModuleImport(config, isServer) {
 
   // TODO: improve this function -> track https://github.com/vercel/next.js/issues/25852
   if (isServer) {
-    config.output.webassemblyModuleFilename = './../static/wasm/tfhe_bg.wasm';
+    config.output.webassemblyModuleFilename = './../static/wasm/luxfhe_bg.wasm';
   } else {
-    config.output.webassemblyModuleFilename = 'static/wasm/tfhe_bg.wasm';
+    config.output.webassemblyModuleFilename = 'static/wasm/luxfhe_bg.wasm';
   }
 }
 ```
@@ -117,18 +117,18 @@ Completely untested. Maybe yes, maybe no, maybe both.
 
 ## luxfhe.js sdk
 
-`cofhejs` is designed to make interacting with FHE enabled blockchains typesafe and as streamlined as possible by providing utility functions for inputs, permits (permissions), and outputs. The sdk is an opinionated implementation of the underling `Permit` class, therefor if the sdk is too limiting for your use case (e.g. multiple active users), you can easily drop down into the core `Permit` class to extend its functionality.
+`fhe` is designed to make interacting with FHE enabled blockchains typesafe and as streamlined as possible by providing utility functions for inputs, permits (permissions), and outputs. The sdk is an opinionated implementation of the underling `Permit` class, therefor if the sdk is too limiting for your use case (e.g. multiple active users), you can easily drop down into the core `Permit` class to extend its functionality.
 
-NOTE: `cofhejs` is still in beta, and while we will try to avoid it, we may release breaking changes in the future if necessary.
+NOTE: `fhe` is still in beta, and while we will try to avoid it, we may release breaking changes in the future if necessary.
 
 The sdk can be imported by:
 ```typescript
-import { cofhejs } from "luxfhe.js"
+import { fhe } from "luxfhe.js"
 ```
 
 Before interacting with your users' permits, you must first initialize the sdk:
 ```typescript
-await cofhejs.initialize({
+await fhe.initialize({
   provider: userProvider,   // Implementation of AbstractAccount in `types.ts`
   signer: userSigner,       // Implementation of AbstractSigner in `types.ts`
 })
@@ -139,21 +139,21 @@ NOTE: When the user changes, it is recommended to re-initialize the sdk with the
 
 then, to create a new Permit, simply:
 ```typescript
-await cofhejs.createPermit({
+await fhe.createPermit({
   type: "self",
   issuer: userAddress,
 })
 
 // Alternatively, you can create a permit with the default options:
 // type: "self"
-// issuer: address of signer passed into `cofhejs.initialize`
-await cofhejs.createPermit()
+// issuer: address of signer passed into `fhe.initialize`
+await fhe.createPermit()
 ```
 
 ### Permissions
 Now that the user has an active permit, we can extract the relevant `Permission` data from that permit:
 ```typescript
-const permit = cofhejs.getPermit()
+const permit = fhe.getPermit()
 const permission = permit.getPermission()
 ```
 
@@ -181,7 +181,7 @@ function add(inEuint32 calldata encryptedValue) public {
 }
 ```
 
-We need to pass an encrypted value into `inEuint32`. Using `cofhejs` this is accomplished by:
+We need to pass an encrypted value into `inEuint32`. Using `fhe` this is accomplished by:
 ```typescript
 const encryptableValue = Encryptable.uint32(5);
 const encryptedArgs = client.encrypt(encryptableValue)
@@ -201,14 +201,14 @@ const encrypted = client.encrypt(
 ```
 
 ### Output data (sealed)
-Encrypted data is sealed before it is returned to the users, at which point it can be unsealed on the client. By using the structs `SealedUint` / `SealedBool` / `SealedAddress` provided in `FHE.sol`, the sealed output variables can be automatically decrypted into the correct type using `cofhejs.unseal`.
+Encrypted data is sealed before it is returned to the users, at which point it can be unsealed on the client. By using the structs `SealedUint` / `SealedBool` / `SealedAddress` provided in `FHE.sol`, the sealed output variables can be automatically decrypted into the correct type using `fhe.unseal`.
 
 A function with the following return type:
 ```solidity
 function getSealedData(Permissioned memory permission) view returns (uint256, string memory, SealedUint memory, SealedUint memory, SealedBool memory);
 ```
 
-can be unsealed with `cofhejs`:
+can be unsealed with `fhe`:
 ```typescript
 const data = await contract.getSealedData(permission);
 
@@ -216,16 +216,16 @@ const unsealed = await client.unseal(data)
 //    ?^ - [bigint, string, bigint, bigint, bool]
 ```
 
-As with `cofhejs.encrypt` above, `unseal` will also recursively unseal any nested data structures.
+As with `fhe.encrypt` above, `unseal` will also recursively unseal any nested data structures.
 
 ### Notes
 
-- `cofhejs` uses `zustand` behind the scenes to persist your user's Permits. These zustand stores can be imported directly to be used as part of hooks. In the future we will also expose hooks to streamline interacting with the sdk in your react enabled dApps.
+- `fhe` uses `zustand` behind the scenes to persist your user's Permits. These zustand stores can be imported directly to be used as part of hooks. In the future we will also expose hooks to streamline interacting with the sdk in your react enabled dApps.
 - We plan to provide viem hooks inspired by `scaffold-eth`'s `useScaffoldContractRead` and `useScaffoldContractWrite` to automatically encrypt input data, inject permissions, and unseal output data.
 
 ## `LuxFHEClient` and `LuxFHEClientSync`
 
-`LuxFHEClient` uses the legacy Permission system (V1), it is recommended to migrate to `cofhejs` and `Permit`s above.
+`LuxFHEClient` uses the legacy Permission system (V1), it is recommended to migrate to `fhe` and `Permit`s above.
 
 ### Usage
 
@@ -274,7 +274,7 @@ We recommend the helper `Permit` structure, which is a built-in method for provi
 
 #### Credits
 
-This project is based on [fhevmjs](https://github.com/luxfhe-ai/fhevmjs) by LuxFHE and utilizes [tfhe.rs](https://github.com/luxfhe-ai/tfhe-rs) to provide FHE functionality
+This project utilizes [tfhe.rs](https://github.com/luxfi/tfhe) to provide FHE functionality
 
 #### Need support?
 

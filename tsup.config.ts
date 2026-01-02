@@ -9,7 +9,7 @@ export default defineConfig({
   splitting: false,
   sourcemap: true,
   clean: true,
-  external: ["tfhe", "node-tfhe"],
+  external: ["@luxfhe/wasm"],
   esbuildOptions(options) {
     options.assetNames = "assets/[name]";
     options.loader = {

@@ -1,7 +1,7 @@
 {
-  "name": "cofhejs-permit",
-  "version": "0.0.1-alpha.0",
-  "description": "cofhejs (but just the permit parts)",
+  "name": "@luxfhe/permit",
+  "version": "0.1.0",
+  "description": "LuxFHE permit utilities",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -39,18 +39,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/luxfheProtocol/cofhejs.git"
+    "url": "git+https://github.com/luxfi/luxfhe.git"
   },
-  "author": "luxfheProtocol",
+  "author": "Lux Partners Limited",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/luxfheProtocol/cofhejs/issues"
+    "url": "https://github.com/luxfi/luxfhe/issues"
   },
-  "homepage": "https://github.com/luxfheProtocol/cofhejs#readme",
+  "homepage": "https://github.com/luxfi/luxfhe#readme",
   "dependencies": {
+    "@luxfhe/wasm": "^0.1.0",
     "@types/node": "^20.0.0",
     "immer": "^10.1.1",
-    "node-tfhe": "0.11.1",
     "tweetnacl": "^1.0.3",
     "tweetnacl-util": "^0.15.1",
     "type-fest": "^4.26.1",
