@@ -2,7 +2,7 @@
 <html>
   <head>
     <title></title>
-<!--    <script id="fhenixjs" src="../dist/fhenix.umd.min.js"></script>-->
+<!--    <script id="luxfhejs" src="../dist/luxfhe.umd.min.js"></script>-->
   </head>
   <body>
     <button id="fetch">Fetch</button>
@@ -10,10 +10,10 @@
   </body>
   <script type="module">
     import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.min.js";
-    import { fhenixjs } from "../dist/fhenix.esm.min.js";
+    import { luxfhejs } from "../dist/luxfhe.esm.min.js";
     async function doFetch() {
       const provider = new ethers.JsonRpcProvider("http://localhost:8547");
-      const resp = new fhenixjs.FhenixClient({provider});
+      const resp = new luxfhejs.LuxFHEClient({provider});
 
       let x = await resp.encrypt_uint8(3);
 
