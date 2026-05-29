@@ -9,7 +9,7 @@ export default [
     output: {
       banner: "const __$G = (typeof globalThis !== 'undefined' ? globalThis: typeof window !== 'undefined' ? window: typeof global !== 'undefined' ? global: typeof self !== 'undefined' ? self: {});",
       name: 'cofhejs',
-      file: 'dist/cofhe.umd.js',
+      file: 'dist/torusevm-coproc.umd.js',
       format: 'umd',
       sourcemap: true
     },
@@ -41,7 +41,7 @@ export default [
       })
     ],
     output: [
-      { file: 'dist/cofhe.esm.js', format: 'esm', sourcemap: true },
+      { file: 'dist/torusevm-coproc.esm.js', format: 'esm', sourcemap: true },
     ]
   }
 ];
